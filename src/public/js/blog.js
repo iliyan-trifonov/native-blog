@@ -8,7 +8,7 @@ export default class Blog {
             '#/about': this.aboutPage.bind(this),
             '#/contact': this.contactPage.bind(this),
             '#/post/([0-9]+)': this.postPage.bind(this)
-        });
+        }, win);
 
         //get the main dynamic contents container
         this.el = doc.querySelector('.dynamic-content');
