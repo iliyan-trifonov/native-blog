@@ -25,10 +25,10 @@ export default class Blog {
     }
 
     indexPage () {
-        let template ='';
+        let template = [];
         Api.posts.get().then(posts => {
             for (let post of posts) {
-                template += `
+                template.push(`
                 <article>
                     <div class="post-title">
                         <a href="#">${post.title}</a>
@@ -37,10 +37,10 @@ export default class Blog {
                         By: ${post.author.name} | ${post.date} | ${post.tags.join(', ')}
                     </div>
                     <div class="post-text">${post.text}</div>
-                </article>`;
+                </article>`);
             }
 
-            this.el.innerHTML = template;
+            this.el.innerHTML = template.join('');
         });
     }
 
