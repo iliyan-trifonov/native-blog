@@ -10,9 +10,9 @@
 
     <header>
         <div class="center-vert">
-            <a href="#" class="header-button">Home</a>
-            <a href="#" class="header-button">About</a>
-            <a href="#" class="header-button">Contact</a>
+            <a href="#/" class="header-button">Home</a>
+            <a href="#/about" class="header-button">About</a>
+            <a href="#/contact" class="header-button">Contact</a>
         </div>
     </header>
 
@@ -20,7 +20,7 @@
         <section class="posts">
             <article>
                 <div class="post-title">
-                    In non urna tristique nisl pellentesque imperdiet
+                    <a href="#">In non urna tristique nisl pellentesque imperdiet</a>
                 </div>
                 <div class="post-info">
                     By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
@@ -36,7 +36,7 @@
 
             <article>
                 <div class="post-title">
-                    Morbi efficitur posuere eros
+                    <a href="#">Morbi efficitur posuere eros</a>
                 </div>
                 <div class="post-info">
                     By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
@@ -52,7 +52,7 @@
 
             <article>
                 <div class="post-title">
-                    Fusce ante tortor
+                    <a href="#">Fusce ante tortor</a>
                 </div>
                 <div class="post-info">
                     By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
@@ -68,7 +68,7 @@
 
             <article>
                 <div class="post-title">
-                    Maecenas a eros interdum, dictum enim sed, malesuada felis
+                    <a href="#">Maecenas a eros interdum, dictum enim sed, malesuada felis</a>
                 </div>
                 <div class="post-info">
                     By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
@@ -84,7 +84,7 @@
 
             <article>
                 <div class="post-title">
-                    Donec vel tempor tortor, vitae luctus magna
+                    <a href="#">Donec vel tempor tortor, vitae luctus magna</a>
                 </div>
                 <div class="post-info">
                     By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
@@ -225,6 +225,13 @@
     </footer>
 
 </div>
+
+<script type="text/javascript" src="node_modules/babel-core/browser.min.js"></script>
+<script type="text/javascript" src="node_modules/es6-module-loader/dist/es6-module-loader-dev.js"></script>
+<script type="text/javascript">
+    System.transpiler = 'babel';
+    System.import('js/app.js');
+</script>
 
 </body>
 </html>
