@@ -1,4 +1,5 @@
 import Router from './router.js';
+import { Api } from './api.js';
 
 export default class Blog {
     constructor (doc, win) {
@@ -24,86 +25,23 @@ export default class Blog {
     }
 
     indexPage () {
-        let template = `<article>
-                <div class="post-title">
-                    <a href="#">In non urna tristique nisl pellentesque imperdiet</a>
-                </div>
-                <div class="post-info">
-                    By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
-                </div>
-                <div class="post-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at cursus magna.
-                    Nullam congue sapien fringilla aliquet facilisis. Morbi quis elit in arcu suscipit auctor.
-                    Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
-                    ipsum.
-                    Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.
-                </div>
-            </article>
+        let template ='';
+        Api.posts.get().then(posts => {
+            for (let post of posts) {
+                template += `
+                <article>
+                    <div class="post-title">
+                        <a href="#">${post.title}</a>
+                    </div>
+                    <div class="post-info">
+                        By: ${post.author.name} | ${post.date} | ${post.tags.join(', ')}
+                    </div>
+                    <div class="post-text">${post.text}</div>
+                </article>`;
+            }
 
-            <article>
-                <div class="post-title">
-                    <a href="#">Morbi efficitur posuere eros</a>
-                </div>
-                <div class="post-info">
-                    By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
-                </div>
-                <div class="post-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at cursus magna.
-                    Nullam congue sapien fringilla aliquet facilisis. Morbi quis elit in arcu suscipit auctor.
-                    Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
-                    ipsum.
-                    Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.
-                </div>
-            </article>
-
-            <article>
-                <div class="post-title">
-                    <a href="#">Fusce ante tortor</a>
-                </div>
-                <div class="post-info">
-                    By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
-                </div>
-                <div class="post-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at cursus magna.
-                    Nullam congue sapien fringilla aliquet facilisis. Morbi quis elit in arcu suscipit auctor.
-                    Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
-                    ipsum.
-                    Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.
-                </div>
-            </article>
-
-            <article>
-                <div class="post-title">
-                    <a href="#">Maecenas a eros interdum, dictum enim sed, malesuada felis</a>
-                </div>
-                <div class="post-info">
-                    By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
-                </div>
-                <div class="post-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at cursus magna.
-                    Nullam congue sapien fringilla aliquet facilisis. Morbi quis elit in arcu suscipit auctor.
-                    Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
-                    ipsum.
-                    Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.
-                </div>
-            </article>
-
-            <article>
-                <div class="post-title">
-                    <a href="#">Donec vel tempor tortor, vitae luctus magna</a>
-                </div>
-                <div class="post-info">
-                    By: Iliyan Trifonov | July 11, 2015 | JavaScript, Web Development
-                </div>
-                <div class="post-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at cursus magna.
-                    Nullam congue sapien fringilla aliquet facilisis. Morbi quis elit in arcu suscipit auctor.
-                    Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
-                    ipsum.
-                    Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.
-                </div>
-            </article>`;
-        this.el.innerHTML = template;
+            this.el.innerHTML = template;
+        });
     }
 
     aboutPage () {
