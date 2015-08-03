@@ -1,6 +1,7 @@
 export default class Router {
-    constructor (data, win) {
+    constructor (data, sideMenu, win) {
         this.data = data || {};
+        this.sideMenu = sideMenu || function (){};
         this.win = win || window;
     }
 
@@ -12,5 +13,6 @@ export default class Router {
         } else {
             this.data['default']();
         }
+        this.sideMenu();
     }
 }
