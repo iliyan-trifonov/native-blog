@@ -9,7 +9,7 @@ export default class Router {
 
     route (hash) {
         //TODO: use regex to catch dynamic urls
-        if (this.data[hash] !== undefined) {
+        if (typeof this.data[hash] === 'function') {
             this.data[hash]();
         } else {
             this.data['default']();
