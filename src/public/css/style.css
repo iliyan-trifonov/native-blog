@@ -112,6 +112,11 @@ main {
     font-size: 2em;
 }
 
+.post-title a {
+    color: black;
+    text-decoration: none;
+}
+
 .post-info {
     border: 1px solid white;
     margin: 5px;
