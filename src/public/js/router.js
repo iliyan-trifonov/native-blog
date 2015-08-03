@@ -9,10 +9,10 @@ export default class Router {
         //TODO: use regex to catch dynamic urls
         if (typeof this.data[hash] === 'function') {
             this.data[hash]();
-            this.win.scrollTo(0, 0);
         } else {
             this.data['default']();
         }
         this.sideMenu();
+        this.win.scrollTo(0, 0);
     }
 }
