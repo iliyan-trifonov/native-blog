@@ -47,4 +47,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
-src/public/node_modules
+node_modules
+src/public/css/dist
+src/public/js/dist

@@ -1,0 +1,46 @@
+.posts {
+  /*border: 1px solid red;*/
+  float: left;
+  width: 680px;
+  height: 100%;
+  padding: 1em;
+  background-color: beige;
+  border-radius: 10px;
+}
+
+.posts article {
+  /*border: 1px solid red;*/
+  margin-bottom: 20px;
+}
+
+.post-title {
+  font-weight: bold;
+  font-size: 2em;
+}
+
+.post-title a {
+  color: black;
+  text-decoration: none;
+}
+
+.post-info {
+  border: 1px solid white;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 3px;
+  background-color: lightblue;
+  font-size: small;
+}
+
+.post-info a {
+  text-decoration: none;
+  color: #0040D0;
+}
+
+.post-info a:hover {
+  color: cadetblue;
+}
+
+.post-text {
+  text-align: justify;
+}
