@@ -157,13 +157,20 @@ export default class Blog {
     }
 
     contactPage () {
+        let linksHtml = [];
+        [
+            'https://twitter.com/iliyan_trifonov',
+            'https://github.com/iliyan-trifonov',
+            'http://blog.iliyan-trifonov.com'
+        ].forEach(function (link) {
+            linksHtml.push(`<a href="${link}" target="_blank">${link}</a><br/><br/>`);
+        });
         this.el.innerHTML = `
             <h1>Contact</h1>
             <section class="contact-page">
             <p>Poke me on:<br/><br/>
-                <a href="http://blog.iliyan-trifonov.com" target="_blank">http://blog.iliyan-trifonov.com</a>,<br/><br/>
-                <a href="https://github.com/iliyan-trifonov" target="_blank">https://github.com/iliyan-trifonov</a><br/><br/>
-                or <a href="https://twitter.com/iliyan_trifonov" target="_blank">https://twitter.com/iliyan_trifonov</a></p>
+                ${linksHtml.join('')}
+            </p>
             </section>
         `;
     }
