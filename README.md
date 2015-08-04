@@ -10,6 +10,8 @@ with services like Parse or with a private one.
 
 The app is currently in alpha stage. Check the TODO section here for what is to be done.
 
+[See it in action here](https://native-blog.iliyan-trifonov.com "Native Blog").
+
 ## Install
 
 We need Babel and ES6 module loader until the browsers fully support the ES6 syntax. Install them with npm:
