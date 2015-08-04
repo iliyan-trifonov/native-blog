@@ -27,7 +27,7 @@ The blog functionality sits over a framework containing a router, an API service
 HTML5 tags like `<main>`, `<header>`, `<footer>`, `<section>`, `<article>`, etc. are used. Other HTML tags used are 
 `<div>`, `<span>`, `<p>`, etc.
 CSS3 syntax like `flex boxes`, `round corners`, `animations`, etc. is used, the rest of the CSS code is as we know it 
-before CSS3.
+before CSS3. The router supports loading directly deep urls, no need to load the index page first.
 The main app.js file is loaded with SystemJS and from there with automatic transpiling everything is ES6 syntax.
 
 ## TODO
