@@ -7,7 +7,7 @@ export default class Blog {
             'default': this.indexPage.bind(this),
             '#/about': this.aboutPage.bind(this),
             '#/contact': this.contactPage.bind(this),
-            '#/post/([0-9]+)': this.postPage.bind(this)
+            '#/posts/([0-9]+)': this.postPage.bind(this)
         }, this.sideMenuLoad.bind(this), win);
 
         //get the dynamic contents containers
@@ -54,7 +54,7 @@ export default class Blog {
                         <div class="flex-container">
                             <div class="flex-item-arrow">&rarr;</div>
                             <div class="flex-item-title">
-                                <a href="#/post/${post.id}">${post.title}</a>
+                                <a href="#/posts/${post.id}">${post.title}</a>
                             </div>
                         </div>
                     </li>`);
@@ -82,7 +82,7 @@ export default class Blog {
             tplItems.push(tplBlockStart);
 
             for (let tag of tags) {
-                tplItems.push(`<a href="#/tag/${tag.id}">${tag.name}</a> `);
+                tplItems.push(`<a href="#/tags/${tag.slug}">${tag.name}</a> `);
             }
 
             tplItems.push(tplBlockEnd);
@@ -112,7 +112,7 @@ export default class Blog {
                     <div class="flex-container">
                         <div class="flex-item-arrow">&rarr;</div>
                         <div class="flex-item-title">
-                            <a href="#/category/${cat.id}">${cat.name}</a>
+                            <a href="#/categories/${cat.slug}">${cat.name}</a>
                         </div>
                     </div>
                 </li>`);
@@ -128,13 +128,18 @@ export default class Blog {
         let template = [];
         Api.posts.get().then(posts => {
             for (let post of posts) {
+                let tags = post.tags;
+                let tagsHtml = [];
+                for (let tag of tags) {
+                    tagsHtml.push(`<a href="#/tags/${tag.slug}">${tag.name}</a>`);
+                }
                 template.push(`
                 <article>
                     <div class="post-title">
-                        <a href="#">${post.title}</a>
+                        <a href="#/posts/${post.id}">${post.title}</a>
                     </div>
                     <div class="post-info">
-                        By: ${post.author.name} | ${post.date} | ${post.tags.join(', ')}
+                        By: ${post.author.name} | ${post.date} | ${tagsHtml.join(', ')}
                     </div>
                     <div class="post-text">${post.text}</div>
                 </article>`);
@@ -153,6 +158,21 @@ export default class Blog {
     }
 
     postPage (postID) {
-        this.el.innerHTML = `Post ${postID}}`;
+        Api.posts.getById(postID).then(post => {
+            let tagsHtml = [];
+            for (let tag of post.tags) {
+                tagsHtml.push(`<a href="#/tags/${tag.slug}">${tag.name}</a>`);
+            }
+            this.el.innerHTML = `
+                <article>
+                    <div class="post-title">
+                        ${post.title}</a>
+                    </div>
+                    <div class="post-info">
+                        By: ${post.author.name} | ${post.date} | ${tagsHtml.join(', ')}
+                    </div>
+                    <div class="post-text">${post.text}</div>
+                </article>`;
+        });
     }
 }
