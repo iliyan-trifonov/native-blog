@@ -1,5 +1,7 @@
 ### Native Blog: a small blog application built with native JavaScript, HTML5 and CSS3
 
+[![devDependency Status](https://david-dm.org/iliyan-trifonov/native-blog/dev-status.svg)](https://david-dm.org/iliyan-trifonov/native-blog#info=devDependencies)
+
 These days JavaScript, HTML5 and CSS3 allow us to build serious applications without the need of additional frameworks.
 With the latest ES6(EcmaScript 2015) we have modules, classes, promises, template strings with tag functions, 
 destructuring, generators, the for-of loop and many more. This makes it easier and without the need of big overhead to
