@@ -6,10 +6,21 @@ export default class Router {
     }
 
     route (hash) {
-        //TODO: use regex to catch dynamic urls
-        if (typeof this.data[hash] === 'function') {
-            this.data[hash]();
-        } else {
+        let matched, param;
+        let paths = Object.keys(this.data);
+        for (let path of paths) {
+            let regex = new RegExp(path);
+            let res = hash.match(regex);
+            if (res) {
+                matched = this.data[path];
+                param = res[1];
+                break;
+            }
+        }
+
+        if (matched) {
+            matched(param);
+        } else if (typeof this.data['default'] === 'function') {
             this.data['default']();
         }
         this.sideMenu();
