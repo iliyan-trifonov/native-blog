@@ -21,6 +21,7 @@ HTML5 tags like `<main>`, `<header>`, `<footer>`, `<section>`, `<article>`, etc.
 `<div>`, `<span>`, `<p>`, etc.
 CSS3 syntax like `flex boxes`, `round corners`, `animations`, etc. is used, the rest of the CSS code is as we know it 
 before CSS3.
+The main app.js file is loaded with SystemJS and from there with automatic transpiling everything is ES6 syntax.
 
 ## TODO
 
