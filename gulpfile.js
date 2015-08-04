@@ -15,7 +15,7 @@ gulp.task('default', ['build', 'watch']);
 gulp.task('build', ['scripts', 'sass']);
 
 gulp.task('scripts', function () {
-    browserify('./src/public/js/app.js')
+    browserify('./src/public/js/app.js', { debug: true })
         .add(require.resolve('babel/polyfill'))
         .transform(babelify)
         .bundle()

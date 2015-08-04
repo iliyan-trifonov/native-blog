@@ -48,9 +48,8 @@ JavaScript and CSS/SASS code is converted to its final syntax understood by the 
 
 ## TODO
 
- 1. Change the scripts build task to create the source map for the ES6 code for easy debugging.
- 2. Finish with the front(guest) part.
- 3. Data module: link posts with categories, authors, etc. logically.
- 4. Create the admin part.
- 5. Remove Babel and Browserify and leave only the native code when the browsers fully support ES6.
- 6. Remove the sample data stored in static arrays and use a back-end like Parse.
+ 1. Finish with the front(guest) part.
+ 2. Data module: link posts with categories, authors, etc. logically.
+ 3. Create the admin part.
+ 4. Remove Babel and Browserify and leave only the native code when the browsers fully support ES6.
+ 5. Remove the sample data stored in static arrays and use a back-end like Parse.
