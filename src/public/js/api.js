@@ -51,33 +51,18 @@ export let Api = {
             );
         },
         recent: function () {
-            return Promise.resolve([
-                {
-                    id: 1,
-                    title: 'In non urna tristique nisl pellentesque imperdiet',
-                    slug: 'in-non-urna-tristique-nisl-pellentesque-imperdiet'
-                },
-                {
-                    id: 2,
-                    title: 'In non urna tristique nisl pellentesque imperdiet',
-                    slug: 'in-non-urna-tristique-nisl-pellentesque-imperdiet'
-                },
-                {
-                    id: 3,
-                    title: 'In non urna tristique nisl pellentesque imperdiet',
-                    slug: 'in-non-urna-tristique-nisl-pellentesque-imperdiet'
-                },
-                {
-                    id: 4,
-                    title: 'In non urna tristique nisl pellentesque imperdiet',
-                    slug: 'in-non-urna-tristique-nisl-pellentesque-imperdiet'
-                },
-                {
-                    id: 5,
-                    title: 'In non urna tristique nisl pellentesque imperdiet',
-                    slug: 'in-non-urna-tristique-nisl-pellentesque-imperdiet'
+            let result = [];
+            let posts = blogData.posts;
+            for (let id in posts) {
+                if (posts.hasOwnProperty(id)) {
+                    let post = posts[id];
+                    result.push({
+                        id: id,
+                        title: post.title
+                    });
                 }
-            ]);
+            }
+            return Promise.resolve(result);
         },
         getById: function (postId) {
             let result;
