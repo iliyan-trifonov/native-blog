@@ -119,9 +119,11 @@ main {
 
 .post-info {
     border: 1px solid white;
+    border-radius: 5px;
     margin: 5px;
     padding: 3px;
     background-color: lightblue;
+    font-size: small;
 }
 
 .post-info a {
