@@ -178,3 +178,7 @@ main {
 
 .dynamic-content {
 }
+
+.contact-page a {
+    color: blue;
+}
