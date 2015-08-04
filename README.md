@@ -32,8 +32,8 @@ The main app.js file is loaded with SystemJS and from there with automatic trans
 
 ## TODO
 
- 1. Finish with the front(guest) part. Improve the router to support dynamic urls.
- 2. Use the static data store with the API module. Link posts with categories, authors, etc. logically.
+ 1. Finish with the front(guest) part.
+ 2. Link posts with categories, authors, etc. logically.
  3. Create the admin part.
  4. Remove Babel and ES6 module loader and leave only the native code when the browsers fully support ES6.
  5. Use SASS to keep the CSS code dry.
