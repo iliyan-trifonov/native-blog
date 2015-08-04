@@ -150,11 +150,22 @@ export default class Blog {
     }
 
     aboutPage () {
-        this.el.innerHTML = 'About';
+        this.el.innerHTML = `
+            <h1>About</h1>
+            <p>Native Blog: a small blog application built with native JavaScript, HTML5 and CSS3</p>
+        `;
     }
 
     contactPage () {
-        this.el.innerHTML = 'Contact';
+        this.el.innerHTML = `
+            <h1>Contact</h1>
+            <section class="contact-page">
+            <p>Poke me on:<br/><br/>
+                <a href="http://blog.iliyan-trifonov.com" target="_blank">http://blog.iliyan-trifonov.com</a>,<br/><br/>
+                <a href="https://github.com/iliyan-trifonov" target="_blank">https://github.com/iliyan-trifonov</a><br/><br/>
+                or <a href="https://twitter.com/iliyan_trifonov" target="_blank">https://twitter.com/iliyan_trifonov</a></p>
+            </section>
+        `;
     }
 
     postPage (postID) {
