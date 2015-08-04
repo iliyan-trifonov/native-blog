@@ -139,7 +139,7 @@ export default class Blog {
                         <a href="#/posts/${post.id}">${post.title}</a>
                     </div>
                     <div class="post-info">
-                        By: ${post.author.name} | ${post.date} | ${tagsHtml.join(', ')}
+                        By:&nbsp;${post.author.name}&nbsp;|&nbsp;${post.date}&nbsp;|&nbsp;${tagsHtml.join(', ')}
                     </div>
                     <div class="post-text">${post.text}</div>
                 </article>`);
