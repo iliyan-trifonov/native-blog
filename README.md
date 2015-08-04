@@ -5,6 +5,8 @@ With the latest ES6(EcmaScript 2015) we have modules, classes, promises, templat
 destructuring, generators, the for-of loop and many more. This makes it easier and without the need of big overhead to
 create a complete dynamic web application.
 
+The app is currently in alpha stage. Check the TODO section here for what is to be done.
+
 ## Install
 
 We need Babel and ES6 module loader until the browsers fully support the ES6 syntax. Install them with npm:
@@ -25,7 +27,10 @@ The main app.js file is loaded with SystemJS and from there with automatic trans
 
 ## TODO
 
- 1. Remove Babel and ES6 module loader and leave only the native code when the browsers fully support ES6.
- 2. Use SASS to keep the CSS code dry.
- 3. Use Gulp to watch and build the final production code. This will help with the transpiling and the css pre-processor.
- 4. Remove the sample data stored in static arrays and use a back-end like Parse.
+ 1. Finish with the front(guest) part. Improve the router to support dynamic urls.
+ 2. Use the static data store with the API module. Link posts with categories, authors, etc. logically.
+ 3. Create the admin part.
+ 4. Remove Babel and ES6 module loader and leave only the native code when the browsers fully support ES6.
+ 5. Use SASS to keep the CSS code dry.
+ 6. Use Gulp to watch and build the final production code. This will help with the transpiling and the css pre-processor.
+ 7. Remove the sample data stored in static arrays and use a back-end like Parse.
