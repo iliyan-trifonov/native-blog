@@ -5,6 +5,9 @@ With the latest ES6(EcmaScript 2015) we have modules, classes, promises, templat
 destructuring, generators, the for-of loop and many more. This makes it easier and without the need of big overhead to
 create a complete dynamic web application.
 
+The application is a fron-end one. If it needs a back-end, modification in the API module should be done to connect it 
+with services like Parse or with a private one.
+
 The app is currently in alpha stage. Check the TODO section here for what is to be done.
 
 ## Install
@@ -14,6 +17,8 @@ We need Babel and ES6 module loader until the browsers fully support the ES6 syn
     npm install babel-core es6-module-loader --prefix=src/public
 
 The command above create a node_modules/ directory inside src/public from where our application will load the js files.
+
+Load `src/public/index.html` in your browser through a web server to see the application.
 
 ## The application
 
