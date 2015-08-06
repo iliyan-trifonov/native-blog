@@ -7,7 +7,9 @@ export default class Blog {
             'default': this.indexPage.bind(this),
             '#/about': this.aboutPage.bind(this),
             '#/contact': this.contactPage.bind(this),
-            '#/posts/([0-9]+)': this.postPage.bind(this)
+            '#/posts/([0-9]+)': this.postPage.bind(this),
+            '#/categories/([a-z]+)': this.categoryPage.bind(this),
+            '#/tags/([a-z-]+)': this.tagPage.bind(this)
         }, this.sideMenuLoad.bind(this), win);
 
         //get the dynamic contents containers
@@ -16,13 +18,6 @@ export default class Blog {
 
         //parse the current url
         this.router.route(win.location.hash);
-
-        //monitor the hash change
-        win.addEventListener(
-            "hashchange",
-            () => this.router.route.call(this.router, win.location.hash),
-            false
-        );
     }
 
     sideMenuLoad () {
@@ -87,7 +82,7 @@ export default class Blog {
 
             tplItems.push(tplBlockEnd);
 
-            this.sideMenuEl.innerHTML += tplItems.join('');
+            this.sideMenuEl.innerHTML += tplItems.join('&nbsp;');
 
             //
 
@@ -124,9 +119,9 @@ export default class Blog {
         });
     }
 
-    indexPage () {
+    loadPosts (options = {}) {
         let template = [];
-        Api.posts.get().then(posts => {
+        return Api.posts.get(options).then(posts => {
             for (let post of posts) {
                 let tags = post.tags;
                 let tagsHtml = [];
@@ -145,14 +140,25 @@ export default class Blog {
                 </article>`);
             }
 
-            this.el.innerHTML = template.join('');
+            return template.join('');
+        });
+    }
+
+    indexPage () {
+        this.loadPosts().then(postsHtml => {
+            this.el.innerHTML = postsHtml;
         });
     }
 
     aboutPage () {
         this.el.innerHTML = `
             <h1>About</h1>
+            <section class="about-page">
             <p>Native Blog: a small blog application built with native JavaScript, HTML5 and CSS3</p>
+            <p>
+              <a href="https://github.com/iliyan-trifonov/native-blog" target="_blank">Check the source code here.</a>
+            </p>
+            </section>
         `;
     }
 
@@ -175,22 +181,21 @@ export default class Blog {
         `;
     }
 
-    postPage (postID) {
-        Api.posts.getById(postID).then(post => {
-            let tagsHtml = [];
-            for (let tag of post.tags) {
-                tagsHtml.push(`<a href="#/tags/${tag.slug}">${tag.name}</a>`);
-            }
-            this.el.innerHTML = `
-                <article>
-                    <div class="post-title">
-                        ${post.title}</a>
-                    </div>
-                    <div class="post-info">
-                        By: ${post.author.name} | ${post.date} | ${tagsHtml.join(', ')}
-                    </div>
-                    <div class="post-text">${post.text}</div>
-                </article>`;
+    postPage (postId) {
+        this.loadPosts({ postId: postId }).then(postsHtml => {
+            this.el.innerHTML = postsHtml;
+        });
+    }
+
+    categoryPage (catSlug) {
+        this.loadPosts({ catSlug: catSlug }).then(postsHtml => {
+            this.el.innerHTML = postsHtml;
+        });
+    }
+
+    tagPage (tagSlug) {
+        this.loadPosts({ tagSlug: tagSlug }).then(postsHtml => {
+            this.el.innerHTML = postsHtml;
         });
     }
 }
