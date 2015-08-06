@@ -7,6 +7,7 @@ export let blogData = {
                     Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
                     ipsum.
                     Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.`,
+            category: 3,
             author: 1,
             date: 1436562000000,
             tags: [1, 2]
@@ -18,9 +19,10 @@ export let blogData = {
                     Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
                     ipsum.
                     Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.`,
+            category: 1,
             author: 1,
             date: 1436562000000,
-            tags: [1, 2]
+            tags: [1, 3]
         },
         3: {
             title: 'Fusce ante tortor',
@@ -29,9 +31,10 @@ export let blogData = {
                     Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
                     ipsum.
                     Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.`,
+            category: 1,
             author: 1,
             date: 1436562000000,
-            tags: [1, 2]
+            tags: [1, 2, 3]
         },
         4: {
             title: 'Maecenas a eros interdum, dictum enim sed, malesuada felis',
@@ -40,9 +43,10 @@ export let blogData = {
                     Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
                     ipsum.
                     Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.`,
+            category: 2,
             author: 1,
             date: 1436562000000,
-            tags: [1, 2]
+            tags: [2, 1]
         },
         5: {
             title: 'Donec vel tempor tortor, vitae luctus magna',
@@ -51,9 +55,10 @@ export let blogData = {
                     Quisque lobortis nulla magna. Curabitur leo libero, elementum tristique augue id, rhoncus iaculis
                     ipsum.
                     Phasellus in suscipit lacus, et rhoncus nulla. Donec tristique faucibus efficitur.`,
+            category: 2,
             author: 1,
             date: 1436562000000,
-            tags: [1, 2]
+            tags: [3, 1]
         }
     },
     authors: {
@@ -69,12 +74,24 @@ export let blogData = {
         2: {
             name: 'Web Development',
             slug: 'web-development'
+        },
+        3: {
+            name: 'PHP',
+            slug: 'php'
         }
     },
     categories: {
         1: {
-            name: 'cat1',
-            slug: 'cat1'
+            name: 'JavaScript',
+            slug: 'javascript'
+        },
+        2: {
+            name: 'AngularJS',
+            slug: 'angularjs'
+        },
+        3: {
+            name: 'NodeJS',
+            slug: 'nodejs'
         }
     }
 };
