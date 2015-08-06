@@ -3,6 +3,13 @@ export default class Router {
         this.data = data || {};
         this.sideMenu = sideMenu || function (){};
         this.win = win || window;
+
+        //monitor the hash change
+        this.win.addEventListener(
+            "hashchange",
+            () => this.route(this.win.location.hash),
+            false
+        );
     }
 
     route (hash) {
