@@ -42,12 +42,62 @@ let populatePosts = posts => {
     return result;
 };
 
-//fake Api calls returning promises with data
+let idFromSlug = options => {
+    let slug = options.catSlug || options.tagSlug;
+    let items;
+
+    if (options.catSlug) {
+        items = blogData.categories;
+    } else if (options.tagSlug) {
+        items = blogData.tags;
+    }
+
+    for (let id in items) {
+        if (items.hasOwnProperty(id)) {
+            let item = items[id];
+            if (item.slug === slug) {
+                return Number(id);
+            }
+        }
+    }
+};
+
+let filterPosts = (posts = [], options = {}) => {
+    let itemId = idFromSlug(options);
+    let filtered = [];
+     for (let id in posts) {
+        if (posts.hasOwnProperty(id)) {
+            let post = posts[id];
+            if (options.catSlug && post.category === itemId ||
+                options.tagSlug && post.tags.indexOf(itemId) !== -1
+            ) {
+                filtered.push(post);
+            }
+        }
+    }
+    return filtered;
+};
+
+//simulating Api calls returning promises with data
 export let Api = {
     posts: {
-        get: function () {
+        get: function (options = {}) {
+            let result;
+            let posts = blogData.posts;
+
+            if (options.catSlug || options.tagSlug) {
+                result = filterPosts(posts, options);
+            } else if (options.postId) {
+                let key = options.postId;
+                result = {
+                    [key]: blogData.posts[options.postId]
+                };
+            } else {
+                result = posts;
+            }
+
             return Promise.resolve(
-                populatePosts(blogData.posts)
+                populatePosts(result)
             );
         },
         recent: function () {
