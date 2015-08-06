@@ -9,6 +9,7 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
+var plumber = require('gulp-plumber');
 
 gulp.task('default', ['build', 'watch']);
 
@@ -19,6 +20,12 @@ gulp.task('scripts', function () {
         .add(require.resolve('babel/polyfill'))
         .transform(babelify)
         .bundle()
+        //.pipe(plumber())
+        //handle errors and don't stop here: useful for the watch task:
+        .on('error', function (err) {
+            console.log(err.toString());
+            this.emit("end");
+        })
         .pipe(source('bundle.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
@@ -29,6 +36,7 @@ gulp.task('scripts', function () {
 
 gulp.task('sass', function () {
     gulp.src('src/public/css/*.scss')
+        .pipe(plumber())
         .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
         .pipe(concat('bundle.css'))
         .pipe(gulp.dest('src/public/css/dist/'));
@@ -37,5 +45,5 @@ gulp.task('sass', function () {
 
 gulp.task('watch', function () {
     gulp.watch('src/public/js/*.js', ['scripts']);
-    gulp.watch('src/public/css/*.css', ['sass']);
+    gulp.watch('src/public/css/*.scss', ['sass']);
 });
