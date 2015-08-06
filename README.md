@@ -40,18 +40,17 @@ The blog functionality sits over a framework containing a router, an API service
 HTML5 tags like `<main>`, `<header>`, `<footer>`, `<section>`, `<article>`, etc. are used. Other HTML tags used are 
 `<div>`, `<span>`, `<p>`, etc.
 CSS3 syntax like `flex boxes`, `round corners`, `animations`, etc. is used, the rest of the CSS code is as we know it 
-before CSS3. The router supports loading directly deep urls, no need to load the index page first.
+before CSS3. SASS is used with variables, nesting, partials, mixins, extend, etc. The router supports loading directly 
+deep urls, no need to load the index page first.
 
 The main applicatoin file is `app.js`. When the browsers support ES6 completely it can be loaded from index.html 
 without the need of transpiling and browserify. Until then we need Babel to transpile the ES6 code to a ES5 one and 
 also convert the ES6 module syntax to a CommonJS one - browserify comes in handy here because it uses the CommonJS 
 syntax to create the final bundle where all modules sit in one single file. We benefit from the build tasks because all 
 JavaScript and CSS/SASS code is converted to its final syntax understood by the browsers today and is also minified.
+JS map file is created to allow debugging the final transpiled and minified code.
 
 ## TODO
 
- 1. Finish with the front(guest) part.
- 2. Data module: link posts with categories, authors, etc. logically.
- 3. Create the admin part.
- 4. Remove Babel and Browserify and leave only the native code when the browsers fully support ES6.
- 5. Remove the sample data stored in static arrays and use a back-end like Parse.
+ 1. Create the admin part.
+ 3. Remove the sample data stored in static arrays and use a back-end like Parse.
