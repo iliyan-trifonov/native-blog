@@ -1,5 +1,20 @@
+@mixin display-flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin set-flex($flex) {
+  -webkit-box-flex: $flex;
+  -moz-box-flex: $flex;
+  -webkit-flex: $flex;
+  -ms-flex: $flex;
+  flex: $flex;
+}
+
 .right-menu {
-  /*border: 1px solid blue;*/
   float: right;
   width: 200px;
   height: 100%;
@@ -8,30 +23,28 @@
   border-radius: 10px;
 }
 
-.menu-block {
-  /*border: 1px solid black;*/
-}
-
 .menu-title {
   font-weight: bold;
 }
 
-.menu-block ul {
-  list-style-type: none;
-  padding-left: 10px;
-}
+.menu-block {
+  ul {
+    list-style-type: none;
+    padding-left: 10px;
 
-.menu-block ul li {
-  margin-bottom: 10px;
-}
+    li {
+      margin-bottom: 10px;
+    }
+  }
 
-.menu-block a {
-  text-decoration: none;
-  color: cornflowerblue;
-}
+  a {
+    text-decoration: none;
+    color: cornflowerblue;
+  }
 
-.menu-block a:hover {
-  color: lightskyblue;
+  a:hover {
+    color: lightskyblue;
+  }
 }
 
 .tags {
@@ -39,15 +52,15 @@
 }
 
 .flex-container {
-  display: flex;
+  @include display-flex;
 }
 
 .flex-item-arrow {
-  flex: 1;
+  @include set-flex(1);
 }
 
 .flex-item-title {
-  flex: 9;
+  @include set-flex(9);
 }
 
 .cleardiv {
