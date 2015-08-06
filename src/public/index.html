@@ -1,7 +1,11 @@
 <!doctype html>
 <html>
 <head>
+    <title>Native Blog</title>
     <link rel="stylesheet" href="css/dist/bundle.css"/>
+    <meta charset="UTF-8">
+    <meta name="description" content="Notepads App built with NodeJS, AngularJS, ExpressJS and MongoDB">
+    <meta name="author" content="Iliyan Trifonov">
 </head>
 
 <body>
@@ -9,11 +13,11 @@
 <div class="wrapper">
 
     <header>
-        <div class="center-vert">
+        <nav class="center-vert">
             <a href="#/" class="header-button">Home</a>
             <a href="#/about" class="header-button">About</a>
             <a href="#/contact" class="header-button">Contact</a>
-        </div>
+        </nav>
     </header>
 
     <main>
@@ -23,11 +27,11 @@
             </div>
         </section>
 
-        <section class="right-menu">
+        <nav class="right-menu">
             <div class="dynamic-content-menu">
                 <span class="loading-status">Loading..</span>
             </div>
-        </section>
+        </nav>
         <div class="cleardiv"></div>
     </main>
 
