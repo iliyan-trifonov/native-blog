@@ -50,3 +50,4 @@ crashlytics-build.properties
 node_modules
 src/public/css/dist
 src/public/js/dist
+src/public/js/config.json
