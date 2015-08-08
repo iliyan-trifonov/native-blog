@@ -1,20 +1,26 @@
-import Router from './router.js';
-import { Api } from './api.js';
-
 export default class Blog {
-    constructor (doc, win) {
+    constructor (doc, win, config, Api, Router, User, Parse) {
         this.router = new Router({
             'default': this.indexPage.bind(this),
             '#/about': this.aboutPage.bind(this),
             '#/contact': this.contactPage.bind(this),
             '#/posts/([0-9]+)': this.postPage.bind(this),
             '#/categories/([a-z]+)': this.categoryPage.bind(this),
-            '#/tags/([a-z-]+)': this.tagPage.bind(this)
+            '#/tags/([a-z-]+)': this.tagPage.bind(this),
+            '#/admin': this.checkAdmin.bind(this)
         }, this.sideMenuLoad.bind(this), win);
 
+        this.doc = doc || document;
+
         //get the dynamic contents containers
-        this.el = doc.querySelector('.dynamic-content');
-        this.sideMenuEl = doc.querySelector('.dynamic-content-menu');
+        this.el = this.doc.querySelector('.dynamic-content');
+        this.sideMenuEl = this.doc.querySelector('.dynamic-content-menu');
+
+        this.Api = Api;
+
+        Parse.initialize(config.Parse.APPLICATION_ID, config.Parse.JAVASCRIPT_KEY);
+
+        this.user = new User(Parse);
 
         //parse the current url
         this.router.route(win.location.hash);
@@ -22,10 +28,10 @@ export default class Blog {
 
     sideMenuLoad () {
         Promise.all([
-            //TODO: change to: Api.posts.get({recent: true}):
-            Api.posts.recent(),
-            Api.tags.get(),
-            Api.categories.get()
+            //TODO: change to: this.Api.posts.list({recent: true}):
+            this.Api.posts.recent(),
+            this.Api.tags.list(),
+            this.Api.categories.list()
         ])
         .then(([posts, tags, cats]) => {
             let tplBlockStart = `
@@ -121,7 +127,7 @@ export default class Blog {
 
     loadPosts (options = {}) {
         let template = [];
-        return Api.posts.get(options).then(posts => {
+        return this.Api.posts.list(options).then(posts => {
             for (let post of posts) {
                 let tags = post.tags;
                 let tagsHtml = [];
@@ -154,7 +160,8 @@ export default class Blog {
         this.el.innerHTML = `
             <h1>About</h1>
             <section class="about-page">
-            <p>Native Blog: a small blog application built with native JavaScript, HTML5 and CSS3</p>
+            <p>Native Blog: a small blog application built with native JavaScript(ES6), HTML5 and CSS3.</p>
+            <p>Tools used for creating the site and its bundles: SASS, Browserify and Gulp.</p>
             <p>
               <a href="https://github.com/iliyan-trifonov/native-blog" target="_blank">Check the source code here.</a>
             </p>
@@ -197,5 +204,113 @@ export default class Blog {
         this.loadPosts({ tagSlug: tagSlug }).then(postsHtml => {
             this.el.innerHTML = postsHtml;
         });
+    }
+
+    checkAdmin () {
+        if (this.user.adminLoggedIn()) {
+            this.adminHomePage();
+        } else {
+            this.user.adminExists().then(count => {
+                if (count && 1 === count) {
+                    this.adminLoginPage();
+                } else {
+                    this.adminRegPage();
+                }
+            }, error => {
+                //console.error('adminExists error', error);
+            });
+        }
+    }
+
+    adminRegPage () {
+        this.el.innerHTML = `
+            <h1>Admin registration</h1>
+            <section>
+                <form class="login-form" method="post">
+                    <div class="form-error hidden">
+                        <div class="form-error-message"></div>
+                        <br/>
+                    </div>
+                    Username: <input type="text" class="form-username" /><br/>
+                    Password: <input type="password" class="form-password pass1"/><br/>
+                    Password confirm: <input type="password" class="form-password pass2"/><br/>
+                    <input type="submit" />
+                </form>
+            </section>
+        `;
+
+        let errorEl = this.doc.querySelector('.form-error');
+        let errorMessEl = this.doc.querySelector('.form-error-message');
+        let username = this.doc.querySelector('.form-username');
+        let pass1 = this.doc.querySelector('.pass1');
+        let pass2 = this.doc.querySelector('.pass2');
+
+        let submitFunc = () => {
+            errorEl.classList.add('hidden');
+
+            if (!pass1.value || !pass2.value || pass1.value !== pass2.value) {
+                errorMessEl.innerHTML = 'Error: no passwords given or passwords don\'t match!';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            this.user.adminRegister(username.value, pass1.value).then(function (user) {
+                //console.info('registered', user);
+            }, function (error) {
+                errorMessEl.innerHTML = 'Error: ' + error.message;
+                errorEl.classList.remove('hidden');
+            });
+        };
+
+        this.doc.querySelector('.login-form')
+            .addEventListener('submit', function (ev) {
+                ev.preventDefault();
+                submitFunc();
+            }, false);
+    }
+
+    adminLoginPage () {
+        this.el.innerHTML = `
+            <h1>Admin login</h1>
+            <section>
+                <form class="login-form" method="post">
+                    <div class="form-error hidden">
+                        <div class="form-error-message"></div>
+                        <br/>
+                    </div>
+                    <input type="text" class="form-username" />
+                    <input type="password" class="form-password"/>
+                    <input type="submit" />
+                </form>
+            </section>
+        `;
+
+        let errorEl = this.doc.querySelector('.form-error');
+        let errorMessEl = this.doc.querySelector('.form-error-message');
+        let username = this.doc.querySelector('.form-username');
+        let password = this.doc.querySelector('.form-password');
+
+        let submitFunc = () => {
+            errorEl.classList.add('hidden');
+            this.user.adminLogin(username.value, password.value).then(user => {
+                this.adminHomePage();
+            }, error => {
+                errorMessEl.innerHTML = 'Error: ' + error.message;
+                errorEl.classList.remove('hidden');
+            });
+        };
+
+        this.doc.querySelector('.login-form')
+            .addEventListener('submit', function (ev) {
+                ev.preventDefault();
+                submitFunc();
+            }, false);
+    }
+
+    adminHomePage () {
+        this.el.innerHTML = `
+            <h1>Admin home</h1>
+            <p>Welcome!</p>
+        `;
     }
 }
