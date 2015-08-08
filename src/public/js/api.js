@@ -1,6 +1,4 @@
-'use strict';
-
-import { blogData } from './data.js';
+import { blogData } from './data';
 
 let monthNames = [
     "January", "February", "March",
@@ -81,7 +79,7 @@ let filterPosts = (posts = [], options = {}) => {
 //simulating Api calls returning promises with data
 export let Api = {
     posts: {
-        get: function (options = {}) {
+        list: function (options = {}) {
             let result;
             let posts = blogData.posts;
 
@@ -113,21 +111,10 @@ export let Api = {
                 }
             }
             return Promise.resolve(result);
-        },
-        getById: function (postId) {
-            let result;
-            let post = blogData.posts[postId];
-            if (!post) {
-                result = [];
-            } else {
-                let posts = populatePosts([post]);
-                result = posts.pop();
-            }
-            return Promise.resolve(result);
         }
     },
     tags: {
-        get: function () {
+        list: function () {
             let tags = blogData.tags;
             let result = [];
             for (let id in tags) {
@@ -144,7 +131,7 @@ export let Api = {
         }
     },
     categories: {
-        get: function () {
+        list: function () {
             let result = [];
             let cats = blogData.categories;
             for (let id in cats) {
