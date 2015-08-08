@@ -19,6 +19,9 @@ The app is currently in alpha stage. Check the TODO section here for what is to 
 
 ## Install
 
+Copy [src/public/js/config.json.dist](src/public/js/config.json.dist) to src/public/js/config.json and populate it 
+with your [Parse](https://parse.com/ "Create your Parse.com app") app settings.
+
 Install the tools needed for building the final JS and CSS bundles:
 
     npm install -g gulp
@@ -27,6 +30,9 @@ Install the tools needed for building the final JS and CSS bundles:
 Run the build:
 
     gulp build
+
+The command above creates bundle.css and bundle.js files which together with Parse's lib are the only ones used by 
+the application.
 
 Load [src/public/index.html](src/public/index.html) in your browser through a web server to see the application.
 
