@@ -30,4 +30,8 @@ export default class User {
         query.equalTo('admin', true);
         return query.count();
     }
+
+    adminLogout () {
+        return this.Parse.User.logOut();
+    }
 }
