@@ -7,13 +7,16 @@ export default class Blog {
             '#/posts/([0-9]+)': this.postPage.bind(this),
             '#/categories/([a-z]+)': this.categoryPage.bind(this),
             '#/tags/([a-z-]+)': this.tagPage.bind(this),
+            '#/admin/logout': this.adminLogout.bind(this),
             '#/admin': this.checkAdmin.bind(this)
-        }, this.sideMenuLoad.bind(this), win);
+        }, this.menusLoader.bind(this), win);
 
+        this.win = win || window;
         this.doc = doc || document;
 
         //get the dynamic contents containers
         this.el = this.doc.querySelector('.dynamic-content');
+        this.topMenuEl = this.doc.querySelector('.dynamic-content-menu-top');
         this.sideMenuEl = this.doc.querySelector('.dynamic-content-menu');
 
         this.Api = Api;
@@ -22,8 +25,28 @@ export default class Blog {
 
         this.user = new User(Parse);
 
+        this.admin = this.user.adminLoggedIn();
+
         //parse the current url
         this.router.route(win.location.hash);
+    }
+
+    menusLoader () {
+        if (!!this.admin) {
+            this.sideMenuLoadAdmin();
+            this.topMenuLoadAdmin();
+        } else {
+            this.sideMenuLoad();
+            this.topMenuLoad();
+        }
+    }
+
+    topMenuLoad () {
+        this.topMenuEl.innerHTML = `
+            <a href="#/" class="header-button">Home</a>
+            <a href="#/about" class="header-button">About</a>
+            <a href="#/contact" class="header-button">Contact</a>
+        `;
     }
 
     sideMenuLoad () {
@@ -121,8 +144,72 @@ export default class Blog {
 
             tplItems.push(tplBlockEnd);
 
+            tplItems.push(`
+                <section class="menu-block">
+                <div class="menu-title">
+                    Admin
+                </div>
+                <ul>
+                <li>
+                    <a href="#/admin">Admin Login</a>
+                </li>
+                </ul>
+            </section>
+            `);
+
             this.sideMenuEl.innerHTML += tplItems.join('');
         });
+    }
+
+    topMenuLoadAdmin () {
+        this.topMenuEl.innerHTML = `
+            <a href="#/admin" class="header-button">Home</a>
+            <a href="#/admin/logout" class="header-button">Logout</a>
+        `;
+    }
+
+    adminLogout () {
+        this.user.adminLogout();
+        this.admin = false;
+        this.win.location.hash = '#/';
+    }
+
+    sideMenuLoadAdmin () {
+        this.sideMenuEl.innerHTML = `
+            <section class="menu-block">
+                <div class="menu-title">
+                    Posts
+                </div>
+                <ul>
+                    <li>
+                        <a href="#/admin/posts">Edit posts</a>
+                    </div>
+                    </li>
+                </ul>
+            </section>
+            <section class="menu-block">
+                <div class="menu-title">
+                    Tags
+                </div>
+                <ul>
+                    <li>
+                        <a href="#/admin/tags">Edit tags</a>
+                    </div>
+                    </li>
+                </ul>
+            </section>
+            <section class="menu-block">
+                <div class="menu-title">
+                    Categories
+                </div>
+                <ul>
+                    <li>
+                        <a href="#/admin/categories">Edit categories</a>
+                    </div>
+                    </li>
+                </ul>
+            </section>
+            `;
     }
 
     loadPosts (options = {}) {
@@ -293,7 +380,11 @@ export default class Blog {
         let submitFunc = () => {
             errorEl.classList.add('hidden');
             this.user.adminLogin(username.value, password.value).then(user => {
+                this.admin = true;
+                //this.win.location.hash = '#/admin';
                 this.adminHomePage();
+                this.topMenuLoadAdmin();
+                this.sideMenuLoadAdmin();
             }, error => {
                 errorMessEl.innerHTML = 'Error: ' + error.message;
                 errorEl.classList.remove('hidden');
