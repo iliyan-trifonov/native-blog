@@ -1,7 +1,7 @@
 export default class Router {
-    constructor (data, sideMenu, win) {
+    constructor (data, menuLoader, win) {
         this.data = data || {};
-        this.sideMenu = sideMenu || function (){};
+        this.menuLoader = menuLoader || function (){};
         this.win = win || window;
 
         //monitor the hash change
@@ -30,7 +30,7 @@ export default class Router {
         } else if (typeof this.data['default'] === 'function') {
             this.data['default']();
         }
-        this.sideMenu();
+        this.menuLoader();
         this.win.scrollTo(0, 0);
     }
 }
