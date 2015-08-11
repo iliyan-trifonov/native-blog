@@ -318,9 +318,30 @@ export default class Blog {
                         <div class="form-error-message"></div>
                         <br/>
                     </div>
-                    Username: <input type="text" class="form-username" /><br/>
-                    Password: <input type="password" class="form-password pass1"/><br/>
-                    Password confirm: <input type="password" class="form-password pass2"/><br/>
+                    <div class="flex-container-form">
+                        <div class="flex-item-form">
+                        Username:
+                        </div>
+                        <div class="flex-item-form">
+                            <input type="text" class="form-username" />
+                        </div>
+                    </div>
+                    <div class="flex-container-form">
+                        <div class="flex-item-form">
+                            Password:
+                        </div>
+                        <div class="flex-item-form">
+                            <input type="password" class="form-password pass1"/>
+                        </div>
+                    </div>
+                    <div class="flex-container-form">
+                        <div class="flex-item-form">
+                            Password confirm:
+                        </div>
+                        <div class="flex-item-form">
+                            <input type="password" class="form-password pass2"/>
+                        </div>
+                    </div>
                     <input type="submit" />
                 </form>
             </section>
@@ -341,8 +362,11 @@ export default class Blog {
                 return;
             }
 
-            this.user.adminRegister(username.value, pass1.value).then(function (user) {
-                //console.info('registered', user);
+            this.user.adminRegister(username.value, pass1.value).then(user => {
+                this.admin = true;
+                //this.win.location.hash = '#/admin';
+                this.adminHomePage();
+                this.menusLoader();
             }, function (error) {
                 errorMessEl.innerHTML = 'Error: ' + error.message;
                 errorEl.classList.remove('hidden');
@@ -361,13 +385,15 @@ export default class Blog {
             <h1>Admin login</h1>
             <section>
                 <form class="login-form" method="post">
-                    <div class="form-error hidden">
-                        <div class="form-error-message"></div>
-                        <br/>
+                    <div class="login-form">
+                        <div class="form-error hidden">
+                            <div class="form-error-message"></div>
+                            <br/>
+                        </div>
+                        <input type="text" class="form-username" placeholder="username" />
+                        <input type="password" class="form-password" placeholder="password" />
+                        <input type="submit" />
                     </div>
-                    <input type="text" class="form-username" />
-                    <input type="password" class="form-password"/>
-                    <input type="submit" />
                 </form>
             </section>
         `;
@@ -383,8 +409,7 @@ export default class Blog {
                 this.admin = true;
                 //this.win.location.hash = '#/admin';
                 this.adminHomePage();
-                this.topMenuLoadAdmin();
-                this.sideMenuLoadAdmin();
+                this.menusLoader();
             }, error => {
                 errorMessEl.innerHTML = 'Error: ' + error.message;
                 errorEl.classList.remove('hidden');
