@@ -1,8 +1,25 @@
 .form-error-message {
   background-color: red;
   color: white;
+  border-radius: 3px;
+  padding: 3px;
 }
 
 .form-error.hidden {
   display: none;
+}
+
+.flex-container-form {
+  display: flex;
+  width: 40%;
+}
+
+.flex-item-form {
+  flex: 1;
+  padding-bottom: 10px;
+}
+
+.login-form {
+  width: 80%;
+  margin: 0 auto;
 }
