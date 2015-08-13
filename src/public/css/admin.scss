@@ -8,7 +8,7 @@ $common-padding: 5px;
 .form-error-message {
   background-color: red;
   color: white;
-  border-radius: 3px;
+  @include border-radius(3px);
   padding: 3px;
 }
 
@@ -17,11 +17,13 @@ $common-padding: 5px;
 }
 
 .flex-container-form {
+  /*TODO: make it browser compatible*/
   display: flex;
   width: 40%;
 }
 
 .flex-item-form {
+  /*TODO: make it browser compatible*/
   flex: 1;
   padding-bottom: 10px;
 }
@@ -33,6 +35,14 @@ $common-padding: 5px;
 
 .admin-post-title {
   padding: $common-padding;
+
+  a {
+    color: blue;
+    text-decoration: none;
+    &:hover {
+      color: darkblue;
+    }
+  }
 }
 
 .post-edit {
@@ -53,5 +63,30 @@ $common-padding: 5px;
 
   input[type=submit] {
     @include border-radius($post-input-brad);
+    background-color: blue;
+    color: white;
+    width: 130px;
+    height: 30px;
+    /*TODO: make it browser compatible*/
+    text-shadow: 4px 4px 8px black;
+    border: none;
+    cursor: pointer;
+    /*no focus*/
+    /*TODO: make it browser compatible*/
+    outline: 0 none;
+    box-shadow: 5px 5px 8px black;
+
+    &:hover {
+      /*TODO: make it browser compatible*/
+      box-shadow: 6px 6px 8px black;
+      /*TODO: make it browser compatible*/
+      text-shadow: 6px 6px 8px black;
+      background-color: #0040D0;
+    }
+
+    &:active {
+      box-shadow: 3px 3px 8px black;
+      transform: translate(5px, 5px);
+    }
   }
 }
