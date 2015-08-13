@@ -10,7 +10,9 @@ export default class Blog {
             '#/admin/logout': this.adminLogout.bind(this),
             '#/admin/posts/edit/([0-9]+)': this.adminPostEdit.bind(this),
             '#/admin/posts': this.adminPosts.bind(this),
-            '#/admin': this.checkAdmin.bind(this)
+            '#/admin': this.checkAdmin.bind(this),
+            '#/privacy-policy': this.privacyPolicy.bind(this),
+            '#/cookie-policy': this.cookiePolicy.bind(this)
         }, this.menusLoader.bind(this), win);
 
         this.win = win || window;
@@ -45,9 +47,11 @@ export default class Blog {
 
     topMenuLoad () {
         this.topMenuEl.innerHTML = `
-            <a href="#/" class="header-button">Home</a>
-            <a href="#/about" class="header-button">About</a>
-            <a href="#/contact" class="header-button">Contact</a>
+            <ul class="menu">
+                <li><a href="#/" class="header-button">Home</a></li>
+                <li><a href="#/about" class="header-button">About</a></li>
+                <li><a href="#/contact" class="header-button">Contact</a></li>
+            </ul>
         `;
     }
 
@@ -163,10 +167,72 @@ export default class Blog {
         });
     }
 
+    cookiePolicy () {
+        this.el.innerHTML = `
+            <section class="cookie-policy">
+            <h1>Cookie Policy for Native Blog</h1><br />
+            <h2>What Are Cookies</h2><br />
+            As is common practice with almost all professional websites this site uses cookies, which are tiny files that are downloaded to your computer, to improve your experience. This page describes what information they gather, how we use it and why we sometimes need to store these cookies. We will also share how you can prevent these cookies from being stored however this may downgrade or 'break' certain elements of the sites functionality.<br />
+            <br />
+            For more general information on cookies see the <a href="http://en.wikipedia.org/wiki/HTTP_cookie">Wikipedia article on HTTP Cookies...</a><br />
+            <h2>How We Use Cookies</h2><br />
+            We use cookies for a variety of reasons detailed below. Unfortunately is most cases there are no industry standard options for disabling cookies without completely disabling the functionality and features they add to this site. It is recommended that you leave on all cookies if you are not sure whether you need them or not in case they are used to provide a service that you use.<br />
+            <h2>Disabling Cookies</h2><br />
+            You can prevent the setting of cookies by adjusting the settings on your browser (see your browser Help for how to do this). Be aware that disabling cookies will affect the functionality of this and many other websites that you visit. Disabling cookies will usually result in also disabling certain functionality and features of the this site. Therefore it is recommended that you do not disable cookies.<br />
+            <h2>The Cookies We Set</h2><br />
+            If you create an account with us then we will use cookies for the management of the signup process and general administration. These cookies will usually be deleted when you log out however in some cases they may remain afterwards to remember your site preferences when logged out.<br />
+            <br />
+            We use cookies when you are logged in so that we can remember this fact. This prevents you from having to log in every single time you visit a new page. These cookies are typically removed or cleared when you log out to ensure that you can only access restricted features and areas when logged in.<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <h2>Third Party Cookies</h2><br />
+            In some special cases we also use cookies provided by trusted third parties. The following section details which third party cookies you might encounter through this site.<br />
+            <br />
+            From time to time we test new features and make subtle changes to the way that the site is delivered. When we are still testing new features these cookies may be used to ensure that you receive a consistent experience whilst on the site whilst ensuring we understand which optimisations our users appreciate the most.<br />
+            <br />
+            In some cases we may provide you with custom content based on what you tell us about yourself either directly or indirectly by linking a social media account. These types of cookies simply allow us to provide you with content that we feel may be of interest to you.<br />
+            <br />
+            <br />
+            <h2>More Information</h2><br />
+            Hopefully that has clarified things for you and as was previously mentioned if there is something that you aren't sure whether you need or not it's usually safer to leave cookies enabled in case it does interact with one of the features you use on our site. However if you are still looking for more information then you can contact us through one of our preferred contact methods.<br />
+            <br />
+            <strong>Email:</strong> iliyan.trifonov@gmail.com<br />
+            <br />
+            </section>
+        `;
+    }
+
+    privacyPolicy () {
+        this.el.innerHTML = `
+            <section class="privacy-policy">
+            <h1>Privacy Policy</h1>
+            The privacy of Native Blog's visitors is important to us. At Native Blog, we recognize that the privacy of our visitor's personal information is important. Here is information on what types of personal information we receive and collect when you visit Native Blog, and how we safeguard your information. We never sell your personal information to third parties.<br/>
+            <br/>
+            Log Files<br/>
+            <br/>
+            We collect and use the data contained in log files. The information in the log files include your IP (internet protocol) address, your ISP (internet service provider, such as AOL or Shaw Cable), the browser used to visit our site (such as Internet Explorer or Firefox), the time you visited our site and which pages you visited within our site.<br/>
+            <br/>
+            Cookies and Web Beacons<br/>
+            <br/>
+            We do use cookies to store information, such as your personal preferences when you visit our site. This could include only showing you a popup once in your visit, or the ability to login to some of our features, such as forums.<br/>
+            <br/>
+            Third Party Advertisements<br/>
+            <br/>
+            We also use third party advertisements on Native Blog to support our site. Some of these advertisers may use technology such as cookies and web beacons when they advertise on our site, which will also send these advertisers (such as Google through the Google AdSense program) information including your IP address, your ISP , the browser you used to visit our site, and in some cases, whether you have Flash installed. This is generally used for geotargeting purposes (showing New York real estate ads to someone in New York, for example) or showing certain ads based on specific sites visited (such as showing cooking ads to someone who frequents cooking sites).<br/>
+            <br/>
+            You can choose to disable or selectively turn off our cookies or third-party cookies in your browser settings, or by managing preferences in programs such as Norton Internet Security; however, this can affect how you are able to interact with our site as well as other websites. This could include the inability to login to services or programs, such as logging into forums or accounts.<br/>
+            </section>
+        `;
+    }
+
     topMenuLoadAdmin () {
         this.topMenuEl.innerHTML = `
-            <a href="#/admin" class="header-button">Home</a>
-            <a href="#/admin/logout" class="header-button">Logout</a>
+            <ul class="menu">
+                <li><a href="#/admin" class="header-button">Home</a></li>
+                <li><a href="#/admin/logout" class="header-button">Logout</a></li>
+            </ul>
         `;
     }
 
@@ -225,13 +291,13 @@ export default class Blog {
                 }
                 template.push(`
                 <article>
-                    <div class="post-title">
+                    <header class="post-title">
                         <a href="#/posts/${post.id}">${post.title}</a>
-                    </div>
-                    <div class="post-info">
+                    </header>
+                    <aside class="post-info">
                         By:&nbsp;${post.author.name}&nbsp;|&nbsp;${post.date}&nbsp;|&nbsp;${tagsHtml.join(', ')}
-                    </div>
-                    <div class="post-text">${post.text}</div>
+                    </aside>
+                    <main class="post-text">${post.text}</main>
                 </article>`);
             }
 
@@ -240,6 +306,11 @@ export default class Blog {
     }
 
     indexPage () {
+        if (this.admin) {
+            this.win.location.hash = '#/admin';
+            return;
+        }
+
         this.loadPosts().then(postsHtml => {
             this.el.innerHTML = postsHtml;
         });
@@ -428,7 +499,9 @@ export default class Blog {
     adminHomePage () {
         this.el.innerHTML = `
             <h1>Admin home</h1>
-            <p>Welcome!</p>
+            <section>
+                <p>Welcome!</p>
+            </section>
         `;
     }
 
