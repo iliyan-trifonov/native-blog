@@ -29,7 +29,10 @@ let populatePosts = posts => {
                     name: blogData.authors[post.author].name
                 },
                 date: parseDate(post.date),
-                tags: []
+                tags: [],
+                category: {
+                    id: post.category
+                }
             };
             for (let tag of post.tags) {
                 p.tags.push(blogData.tags[tag]);
@@ -138,7 +141,7 @@ export let Api = {
                 if (cats.hasOwnProperty(id)) {
                     let cat = cats[id];
                     result.push({
-                        id: id,
+                        id: Number(id),
                         name: cat.name,
                         slug: cat.slug
                     });
