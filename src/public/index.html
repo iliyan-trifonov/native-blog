@@ -6,13 +6,27 @@
     <meta charset="UTF-8">
     <meta name="description" content="Notepads App built with NodeJS, AngularJS, ExpressJS and MongoDB">
     <meta name="author" content="Iliyan Trifonov">
+
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+    <script type="text/javascript">
+        window.cookieconsent_options = {
+            "message":"This website uses cookies to ensure you get the best experience on our website",
+            "dismiss":"Got it!",
+            "learnMore":"More info",
+            "link":"#/cookie-policy",
+            "theme":"dark-bottom"
+        };
+    </script>
+    <script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+    <!-- End Cookie Consent plugin -->
+
 </head>
 
 <body>
 
 <div class="wrapper">
 
-    <header>
+    <header class="header">
         <nav class="center-vert">
             <div class="dynamic-content-menu-top">
                 <span class="loading-status">Loading..</span>
@@ -20,24 +34,30 @@
         </nav>
     </header>
 
-    <main>
+    <main class="main">
         <section class="posts">
             <div class="dynamic-content">
                 <span class="loading-status">Loading..</span>
             </div>
         </section>
 
-        <nav class="right-menu">
+        <aside class="right-menu">
             <div class="dynamic-content-menu">
                 <span class="loading-status">Loading..</span>
             </div>
-        </nav>
+        </aside>
         <div class="cleardiv"></div>
     </main>
 
     <footer class="footer">
         <div class="center-vert">
-            Copyright &copy; 2015 iliyan-trifonov.com
+            <section>
+                <ul class="menu">
+                    <li><a href="#/cookie-policy">Cookie Policy</a></li> |
+                    <li><a href="#/privacy-policy">Privacy Policy</a></li>
+                </ul>
+            </section>
+            <section>Copyright &copy; 2015 iliyan-trifonov.com</section>
         </div>
     </footer>
 
