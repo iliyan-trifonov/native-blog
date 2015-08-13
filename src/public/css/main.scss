@@ -5,6 +5,10 @@ $center-ver-percent: 50%;
 $content-width: 960px;
 $main-content-vert-space: 3.5em;
 
+@mixin text-align-justify {
+  text-align: justify;
+}
+
 .header-footer-common {
   width: 100%;
   height: $bar-height;
@@ -16,7 +20,7 @@ $main-content-vert-space: 3.5em;
   position: relative;
 }
 
-header {
+header.header {
   position: fixed;
   top: 0;
   @extend .header-footer-common;
@@ -39,19 +43,35 @@ footer.footer {
   left: 0;
   @extend .header-footer-common;
   background-color: snow;
+  font-size: 14px;
+
+  a {
+    color: brown;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .center-vert {
+    position: relative;
+    top: $center-ver-percent;
+    transform: translateY(-$center-ver-percent);
+
+    section {
+      margin-bottom: 10px;
+    }
+  }
 }
 
-.center-vert {
-  position: relative;
-  top: $center-ver-percent;
-  transform: translateY(-$center-ver-percent);
-}
-
-main {
+main.main {
   width: $content-width;
   height: 100%;
   margin: $main-content-vert-space auto 0;
   padding-bottom: $main-content-vert-space;
+
+  h1 {
+    border-bottom: 1px solid dimgray;
+  }
 }
 
 .header-button {
@@ -67,3 +87,24 @@ main {
   background-color: black;
   @include border-radius(8px);
 }
+
+.privacy-policy {
+  @include text-align-justify;
+}
+
+.cookie-policy {
+  @include text-align-justify;
+}
+
+ul.menu {
+  display: inline;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+}
+
