@@ -34,11 +34,12 @@
   a {
     text-decoration: none;
     color: #0040D0;
+
+    &:hover {
+      color: cadetblue;
+    }
   }
 
-  a:hover {
-    color: cadetblue;
-  }
 }
 
 .post-text {
