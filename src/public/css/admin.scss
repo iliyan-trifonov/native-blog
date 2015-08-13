@@ -1,3 +1,10 @@
+@import "border-radius";
+
+$post-input-brad: 5px;
+$post-input-width: 100%;
+$post-text-height: 200px;
+$common-padding: 5px;
+
 .form-error-message {
   background-color: red;
   color: white;
@@ -22,4 +29,29 @@
 .login-form {
   width: 80%;
   margin: 0 auto;
+}
+
+.admin-post-title {
+  padding: $common-padding;
+}
+
+.post-edit {
+  div {
+    padding: $common-padding;
+  }
+
+  input[type=text] {
+    width: $post-input-width;
+    @include border-radius($post-input-brad);
+  }
+
+  textarea {
+    width: $post-input-width;
+    height: $post-text-height;
+    @include border-radius($post-input-brad);
+  }
+
+  input[type=submit] {
+    @include border-radius($post-input-brad);
+  }
 }
