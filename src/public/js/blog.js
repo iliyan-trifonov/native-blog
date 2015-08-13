@@ -8,6 +8,8 @@ export default class Blog {
             '#/categories/([a-z]+)': this.categoryPage.bind(this),
             '#/tags/([a-z-]+)': this.tagPage.bind(this),
             '#/admin/logout': this.adminLogout.bind(this),
+            '#/admin/posts/edit/([0-9]+)': this.adminPostEdit.bind(this),
+            '#/admin/posts': this.adminPosts.bind(this),
             '#/admin': this.checkAdmin.bind(this)
         }, this.menusLoader.bind(this), win);
 
@@ -428,5 +430,86 @@ export default class Blog {
             <h1>Admin home</h1>
             <p>Welcome!</p>
         `;
+    }
+
+    adminPosts () {
+        let result = [];
+        result.push(`
+            <h1>Admin: Posts</h1>
+        `);
+        this.Api.posts.list({titleOnly: true}).then(posts => {
+            result.push(`
+                <section>
+            `);
+
+            for (let post of posts) {
+                result.push(`
+                    <div class="admin-post-title">
+                        <a href="#/admin/posts/edit/${post.id}">
+                            ${post.title}
+                        </a>
+                    </div>
+                `);
+            }
+
+            result.push(`
+                </section>
+            `);
+
+            this.el.innerHTML = result.join('');
+        });
+    }
+
+    adminPostEdit (postId) {
+        let result = [];
+        result.push(`
+            <h1>Admin: Edit Post</h1>
+        `);
+        Promise.all([
+            this.Api.posts.list({ postId: postId }),
+            this.Api.categories.list()]
+        ).then(([p, categories]) => {
+            result.push(`
+                <section class="post-edit">
+            `);
+
+            let post = p[0];
+
+            let select_options = [];
+            for (let cat of categories) {
+                select_options.push(`
+                <option value="${cat.id}" ${cat.id === post.category.id ? 'selected' : ''}>${cat.name}</option>
+            `);
+            }
+
+            result.push(`
+            <form id="post-edit-form">
+                <div>Post Title:</div>
+                <div>
+                    <input type="text" name="title" id="title" value="${post.title}" placeholder="post title" />
+                </div>
+                <div>Post Text:</div>
+                <div><textarea placeholder="post text">${post.text}</textarea></div>
+                <div>Category:</div>
+                <div>
+                    <select name="category" id="category">
+                        ${select_options.join('')}
+                    </select>
+                </div>
+                <div><input type="submit"></div>
+            </form>
+            `);
+                result.push(`
+                </section>
+            `);
+
+            this.el.innerHTML = result.join('');
+
+            let postForm = this.doc.querySelector('#post-edit-form');
+            postForm.addEventListener('submit', function (ev) {
+                ev.preventDefault();
+                alert('post submitted!');
+            }, false);
+        });
     }
 }
