@@ -29,8 +29,54 @@ $common-padding: 5px;
 }
 
 .login-form {
-  width: 80%;
+  background-color: cornsilk;
+  width: 50%;
   margin: 0 auto;
+  padding: 10px;
+  @include border-radius(5px);
+
+  input, label {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+  }
+
+  input {
+    border: 0;
+    margin-bottom: 10px;
+    padding: 5px 0 5px 0;
+    @include border-radius(5px);
+  }
+
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  $shadow-offset: 3px;
+
+  input[type=submit] {
+    width: 150px;
+    height: 35px;
+    margin: 0 auto;
+    box-shadow: $shadow-offset $shadow-offset 8px black;
+    @include border-radius(5px);
+    outline: 0;
+    background-color: wheat;
+    color: black;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+
+    &:hover {
+      box-shadow: $shadow-offset $shadow-offset 15px black;
+    }
+
+    &:active {
+      transform: translate($shadow-offset, $shadow-offset);
+      box-shadow: none;
+    }
+  }
 }
 
 .admin-post-title {
@@ -46,18 +92,32 @@ $common-padding: 5px;
 }
 
 .post-edit {
-  div {
-    padding: $common-padding;
+  textarea {
+    height: $post-text-height;
+    @include border-radius($post-input-brad);
+    padding: 0;
+    margin: 0;
+    border: 0;
   }
 
-  input[type=text] {
-    width: $post-input-width;
-    @include border-radius($post-input-brad);
+  input, label, textarea, select {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 18px;
   }
 
   textarea {
-    width: $post-input-width;
-    height: $post-text-height;
+    font-size: 14px;
+  }
+
+  label {
+    margin-bottom: 3px;
+    font-weight: bold;
+  }
+
+  input[type=text] {
+    border: 0;
     @include border-radius($post-input-brad);
   }
 
@@ -87,6 +147,26 @@ $common-padding: 5px;
     &:active {
       box-shadow: 3px 3px 8px black;
       transform: translate(5px, 5px);
+    }
+  }
+
+  select {
+    border: 0;
+  }
+}
+
+.admin-registered {
+  & div:first-child {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  a {
+    color: blue;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 }
