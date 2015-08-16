@@ -1,18 +1,24 @@
 export default class Blog {
     constructor (doc, win, config, Api, Router, User, Parse) {
         this.router = new Router({
-            'default': this.indexPage.bind(this),
-            '#/about': this.aboutPage.bind(this),
-            '#/contact': this.contactPage.bind(this),
-            '#/posts/([0-9]+)': this.postPage.bind(this),
-            '#/categories/([a-z]+)': this.categoryPage.bind(this),
-            '#/tags/([a-z-]+)': this.tagPage.bind(this),
-            '#/admin/logout': this.adminLogout.bind(this),
-            '#/admin/posts/edit/([0-9]+)': this.adminPostEdit.bind(this),
-            '#/admin/posts': this.adminPosts.bind(this),
-            '#/admin': this.checkAdmin.bind(this),
-            '#/privacy-policy': this.privacyPolicy.bind(this),
-            '#/cookie-policy': this.cookiePolicy.bind(this)
+            'public': {
+                'default': this.indexPage.bind(this),
+                '#/about': this.aboutPage.bind(this),
+                '#/contact': this.contactPage.bind(this),
+                '#/posts/([0-9]+)': this.postPage.bind(this),
+                '#/categories/([a-z]+)': this.categoryPage.bind(this),
+                '#/tags/([a-z-]+)': this.tagPage.bind(this),
+                '#/privacy-policy': this.privacyPolicy.bind(this),
+                '#/cookie-policy': this.cookiePolicy.bind(this),
+                '#/admin/login': this.adminLoginPage.bind(this),
+                '#/admin/register': this.adminRegPage.bind(this)
+            },
+            'admin': {
+                'default': this.adminHomePage.bind(this),
+                '#/admin/logout': this.adminLogout.bind(this),
+                '#/admin/posts/edit/([0-9]+)': this.adminPostEdit.bind(this),
+                '#/admin/posts': this.adminPosts.bind(this)
+            }
         }, this.menusLoader.bind(this), win);
 
         this.win = win || window;
@@ -30,6 +36,7 @@ export default class Blog {
         this.user = new User(Parse);
 
         this.admin = this.user.adminLoggedIn();
+        this.router.setAdmin(this.admin);
 
         //parse the current url
         this.router.route(win.location.hash);
@@ -81,12 +88,7 @@ export default class Blog {
             for (let post of posts) {
                 tplItems.push(`
                     <li>
-                        <div class="flex-container">
-                            <div class="flex-item-arrow">&rarr;</div>
-                            <div class="flex-item-title">
-                                <a href="#/posts/${post.id}">${post.title}</a>
-                            </div>
-                        </div>
+                        <a href="#/posts/${post.id}">${post.title}</a>
                     </li>`);
             }
 
@@ -139,12 +141,7 @@ export default class Blog {
             for (let cat of cats) {
                 tplItems.push(`
                 <li>
-                    <div class="flex-container">
-                        <div class="flex-item-arrow">&rarr;</div>
-                        <div class="flex-item-title">
-                            <a href="#/categories/${cat.slug}">${cat.name}</a>
-                        </div>
-                    </div>
+                    <a href="#/categories/${cat.slug}">${cat.name}</a>
                 </li>`);
             }
 
@@ -155,10 +152,9 @@ export default class Blog {
                 <div class="menu-title">
                     Admin
                 </div>
-                <ul>
-                <li>
-                    <a href="#/admin">Admin Login</a>
-                </li>
+                <ul class="admin-links">
+                    <li><a href="#/admin/login">Login</a></li>
+                    <li><a href="#/admin/register">Register</a></li>
                 </ul>
             </section>
             `);
@@ -239,7 +235,12 @@ export default class Blog {
     adminLogout () {
         this.user.adminLogout();
         this.admin = false;
-        this.win.location.hash = '#/';
+        this.router.setAdmin(this.admin);
+        if (this.win.location.hash === '#/') {
+            this.win.location.reload();
+        } else {
+            this.win.location.hash = '#/';
+        }
     }
 
     sideMenuLoadAdmin () {
@@ -366,7 +367,7 @@ export default class Blog {
         });
     }
 
-    checkAdmin () {
+    /*checkAdmin () {
         if (this.user.adminLoggedIn()) {
             this.adminHomePage();
         } else {
@@ -380,92 +381,102 @@ export default class Blog {
                 //console.error('adminExists error', error);
             });
         }
-    }
+    }*/
 
     adminRegPage () {
-        this.el.innerHTML = `
-            <h1>Admin registration</h1>
-            <section>
-                <form class="login-form" method="post">
-                    <div class="form-error hidden">
-                        <div class="form-error-message"></div>
-                        <br/>
+        this.el.innerHTML = `<h1>Admin registration</h1>`;
+        this.user.adminExists().then(count => {
+            if (count && 1 === count) {
+                this.el.innerHTML += `
+                <section class="admin-registered">
+                    <div>Admin is already registered!</div>
+                    <div>
+                        Please use the <a href="#/admin/login">login page</a> to login and administer.
                     </div>
-                    <div class="flex-container-form">
-                        <div class="flex-item-form">
-                        Username:
-                        </div>
-                        <div class="flex-item-form">
-                            <input type="text" class="form-username" />
-                        </div>
-                    </div>
-                    <div class="flex-container-form">
-                        <div class="flex-item-form">
-                            Password:
-                        </div>
-                        <div class="flex-item-form">
-                            <input type="password" class="form-password pass1"/>
-                        </div>
-                    </div>
-                    <div class="flex-container-form">
-                        <div class="flex-item-form">
-                            Password confirm:
-                        </div>
-                        <div class="flex-item-form">
-                            <input type="password" class="form-password pass2"/>
-                        </div>
-                    </div>
-                    <input type="submit" />
-                </form>
-            </section>
-        `;
+                </section>
+                `;
+            } else {
+                this.el.innerHTML += `
+                    <section>
+                        <form class="form-regform" method="post">
+                            <div class="login-form">
+                                <div class="form-error hidden">
+                                    <div class="form-error-message"></div>
+                                    <br/>
+                                </div>
 
-        let errorEl = this.doc.querySelector('.form-error');
-        let errorMessEl = this.doc.querySelector('.form-error-message');
-        let username = this.doc.querySelector('.form-username');
-        let pass1 = this.doc.querySelector('.pass1');
-        let pass2 = this.doc.querySelector('.pass2');
+                                <label for="username">Username</label>
+                                <input type="text" id="username" placeholder="Enter your username" />
 
-        let submitFunc = () => {
-            errorEl.classList.add('hidden');
+                                <label for="password">Password</label>
+                                <input type="password" id="password" placeholder="Enter your password" />
 
-            if (!pass1.value || !pass2.value || pass1.value !== pass2.value) {
-                errorMessEl.innerHTML = 'Error: no passwords given or passwords don\'t match!';
-                errorEl.classList.remove('hidden');
-                return;
+                                <label for="password2">Password confirm</label>
+                                <input type="password" id="password2" placeholder="Enter your password again" />
+
+                                <input type="submit" />
+                            </div>
+                        </form>
+                    </section>
+                `;
+
+                let errorEl = this.doc.querySelector('.form-error');
+                let errorMessEl = this.doc.querySelector('.form-error-message');
+                let username = this.doc.getElementById('username');
+                let pass1 = this.doc.getElementById('password');
+                let pass2 = this.doc.getElementById('password2');
+
+                let submitFunc = () => {
+                    errorEl.classList.add('hidden');
+
+                    if (!pass1.value || !pass2.value || pass1.value !== pass2.value) {
+                        errorMessEl.innerHTML = 'Error: no passwords given or passwords don\'t match!';
+                        errorEl.classList.remove('hidden');
+                        return;
+                    }
+
+                    this.user.adminRegister(username.value, pass1.value).then(user => {
+                        this.admin = true;
+                        this.router.setAdmin(this.admin);
+                        if (this.win.location.hash === '#/admin') {
+                            this.win.location.reload();
+                        } else {
+                            this.win.location.hash = '#/admin';
+                        }
+                    }, function (error) {
+                        errorMessEl.innerHTML = 'Error: ' + error.message;
+                        errorEl.classList.remove('hidden');
+                    });
+                };
+
+                this.doc.querySelector('.form-regform')
+                    .addEventListener('submit', function (ev) {
+                        ev.preventDefault();
+                        submitFunc();
+                    }, false);
             }
-
-            this.user.adminRegister(username.value, pass1.value).then(user => {
-                this.admin = true;
-                //this.win.location.hash = '#/admin';
-                this.adminHomePage();
-                this.menusLoader();
-            }, function (error) {
-                errorMessEl.innerHTML = 'Error: ' + error.message;
-                errorEl.classList.remove('hidden');
-            });
-        };
-
-        this.doc.querySelector('.login-form')
-            .addEventListener('submit', function (ev) {
-                ev.preventDefault();
-                submitFunc();
-            }, false);
+        }, error => {
+            //console.error('adminExists error', error);
+        });
     }
 
     adminLoginPage () {
         this.el.innerHTML = `
             <h1>Admin login</h1>
             <section>
-                <form class="login-form" method="post">
+                <form method="post" class="form-loginform">
                     <div class="login-form">
                         <div class="form-error hidden">
                             <div class="form-error-message"></div>
                             <br/>
                         </div>
-                        <input type="text" class="form-username" placeholder="username" />
-                        <input type="password" class="form-password" placeholder="password" />
-                        <input type="submit" />
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter your username" />
+
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" />
+
+                        <input type="submit" value="Log in" />
                     </div>
                 </form>
             </section>
@@ -473,23 +484,26 @@ export default class Blog {
 
         let errorEl = this.doc.querySelector('.form-error');
         let errorMessEl = this.doc.querySelector('.form-error-message');
-        let username = this.doc.querySelector('.form-username');
-        let password = this.doc.querySelector('.form-password');
+        let username = this.doc.getElementById('username');
+        let password = this.doc.getElementById('password');
 
         let submitFunc = () => {
             errorEl.classList.add('hidden');
             this.user.adminLogin(username.value, password.value).then(user => {
                 this.admin = true;
-                //this.win.location.hash = '#/admin';
-                this.adminHomePage();
-                this.menusLoader();
+                this.router.setAdmin(this.admin);
+                if (this.win.location.hash === '#/admin') {
+                    this.win.location.reload();
+                } else {
+                    this.win.location.hash = '#/admin';
+                }
             }, error => {
                 errorMessEl.innerHTML = 'Error: ' + error.message;
                 errorEl.classList.remove('hidden');
             });
         };
 
-        this.doc.querySelector('.login-form')
+        this.doc.querySelector('.form-loginform')
             .addEventListener('submit', function (ev) {
                 ev.preventDefault();
                 submitFunc();
@@ -557,19 +571,15 @@ export default class Blog {
 
             result.push(`
             <form id="post-edit-form">
-                <div>Post Title:</div>
-                <div>
-                    <input type="text" name="title" id="title" value="${post.title}" placeholder="post title" />
-                </div>
-                <div>Post Text:</div>
-                <div><textarea placeholder="post text">${post.text}</textarea></div>
-                <div>Category:</div>
-                <div>
-                    <select name="category" id="category">
-                        ${select_options.join('')}
-                    </select>
-                </div>
-                <div><input type="submit"></div>
+                <label for="title">Post Title</label>
+                <input type="text" name="title" id="title" value="${post.title}" placeholder="Enter the post's title" />
+                <label for="text">Post Text</label>
+                <textarea id="text" placeholder="Enter the post's text">${post.text}</textarea>
+                <label for="category">Category</label>
+                <select name="category" id="category">
+                    ${select_options.join('')}
+                </select>
+                <input type="submit" value="Save">
             </form>
             `);
                 result.push(`
