@@ -37,28 +37,28 @@ header.header {
 
 }
 
+.center-vert {
+  position: relative;
+  top: $center-ver-percent;
+  transform: translateY(-$center-ver-percent);
+
+  section {
+    margin-bottom: 10px;
+  }
+}
+
 footer.footer {
   position: absolute;
   bottom: 0;
   left: 0;
   @extend .header-footer-common;
-  background-color: snow;
   font-size: 14px;
+  background-color: snow;
 
   a {
     color: brown;
     &:hover {
       text-decoration: none;
-    }
-  }
-
-  .center-vert {
-    position: relative;
-    top: $center-ver-percent;
-    transform: translateY(-$center-ver-percent);
-
-    section {
-      margin-bottom: 10px;
     }
   }
 }
@@ -70,7 +70,8 @@ main.main {
   padding-bottom: $main-content-vert-space;
 
   h1 {
-    border-bottom: 1px solid dimgray;
+    border-bottom: 1px solid dimgrey;
+    padding-bottom: 5px;
   }
 }
 
@@ -96,8 +97,9 @@ main.main {
   @include text-align-justify;
 }
 
-ul.menu {
+.menu {
   padding: 0;
+  margin: 0;
 
   li {
     display: inline;
@@ -106,3 +108,7 @@ ul.menu {
   }
 }
 
+.admin-links a {
+  display: block;
+  margin-bottom: 5px;
+}
