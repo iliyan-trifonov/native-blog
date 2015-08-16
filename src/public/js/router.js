@@ -3,6 +3,7 @@ export default class Router {
         this.data = data || {};
         this.menuLoader = menuLoader || function (){};
         this.win = win || window;
+        this.isAdmin = false;
 
         //monitor the hash change
         this.win.addEventListener(
@@ -14,12 +15,13 @@ export default class Router {
 
     route (hash) {
         let matched, param;
-        let paths = Object.keys(this.data);
+        let subData = this.isAdmin ? this.data.admin : this.data.public;
+        let paths = Object.keys(subData);
         for (let path of paths) {
             let regex = new RegExp(path);
             let res = hash.match(regex);
             if (res) {
-                matched = this.data[path];
+                matched = subData[path];
                 param = res[1];
                 break;
             }
@@ -27,10 +29,14 @@ export default class Router {
 
         if (matched) {
             matched(param);
-        } else if (typeof this.data['default'] === 'function') {
-            this.data['default']();
+        } else if (typeof subData['default'] === 'function') {
+            subData['default']();
         }
         this.menuLoader();
         this.win.scrollTo(0, 0);
+    }
+
+    setAdmin (value) {
+        this.isAdmin = !!value;
     }
 }
