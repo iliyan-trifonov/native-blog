@@ -119,7 +119,7 @@ export default class Blog {
 
             tplItems.push(tplBlockEnd);
 
-            this.sideMenuEl.innerHTML += tplItems.join('&nbsp;');
+            this.sideMenuEl.innerHTML += tplItems.join('');
 
             //
 
