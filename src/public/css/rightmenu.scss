@@ -25,6 +25,8 @@
 
 .menu-title {
   font-weight: bold;
+  border-bottom: 1px solid dimgrey;
+  padding-bottom: 3px;
 }
 
 .menu-block {
@@ -44,11 +46,15 @@
 
   a:hover {
     color: lightskyblue;
+    text-decoration: underline;
   }
 }
 
 .tags {
   margin: 1em;
+  &:first-child {
+    margin-left: 0;
+  }
 }
 
 .flex-container {
