@@ -70,8 +70,9 @@ main.main {
   padding-bottom: $main-content-vert-space;
 
   h1 {
-    border-bottom: 1px solid dimgrey;
-    padding-bottom: 5px;
+    /*an interesting underline*/
+    box-shadow: 0 1px 0 #969c8a, 0 2px 0 #fff;
+    padding-bottom: 3px;
   }
 }
 
